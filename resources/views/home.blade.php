@@ -9,8 +9,19 @@
 
                 <div class="card-body">
                     @if (session('status'))
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-success" role="alert" >
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                             {{ session('status') }}
+                        </div>
+                    @endif
+                    @if (session('delete'))
+                        <div class="alert alert-danger" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ session('delete') }}
                         </div>
                     @endif
 
@@ -48,15 +59,13 @@
                 <div class="card-header">Ваши объявления</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                   
                     @foreach($products as $product)
                         <p>{{$product->title}}</p>
                         <p>{!! $product->description !!}</p>
-                        <img class="card-img-top" src="{{asset('/storage/'.$product->image)}}"><hr>
+                        <p>{{ $product->price }}$</p>
+                       <a href="{{route('show',$product->id)}}"><img class="card-img-top" src="{{asset('/storage/'.$product->image)}}"><hr></a>
+                      
                         {!!Form::open(['method' => 'DELETE', 'route' => ['destroy', $product->id]])!!}
                         {!!Form::submit('Удалить', ['class'=>'btn btn-danger btn-xs'])!!}
                         {!!Form::close()!!}

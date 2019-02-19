@@ -28,7 +28,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(){
-        $products = Product::where('user_id',Auth::user()->id)->get()->where('is_published',0);
+        $products = Product::where('user_id',Auth::user()->id)->get()->where('is_published',1);
         return view('home', compact('products'));
 
     }
@@ -50,21 +50,9 @@ class HomeController extends Controller
             'user_name'=>$request->user_name,
             'price'=>$request->price,
             'image'=>$path
-
         ]);
-        // $path = $request->file('image')->store('uploads', 'public');
-        // $product = new Product;
-        // $product->title = $request->title;
-        // $product->description = $request->description;
-        // $product->user_id = $request->user_id;
-        // $product->user_name = $request->user_name;
-        // $product->price = $request->price;
-        // $product->image = $path;
-        // $product->save();
-        return redirect('/home');
-
+        return redirect('/home')->with('status', 'Обьявление отправлено на модерацию');
     }
-    
     /**
      * Display the specified resource.
      *
@@ -72,8 +60,8 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-        
-      
+        $shows = Product::find($id);
+        return view('show',compact('shows'));
     }
 
     /**
@@ -82,11 +70,6 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id){
-   
-        
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -109,7 +92,7 @@ class HomeController extends Controller
     $delete = Product::find($id);
     Storage::delete('public/'. $delete->image);
     $delete->delete();
-    return redirect('/home');
+    return redirect('/home')->with('delete', 'Обьявление удалено');
 
     }
 }
