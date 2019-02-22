@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-
 use App\Product;
 use Illuminate\Support\Facades\View;
 use Auth;
@@ -28,7 +27,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(){
-        $products = Product::where('user_id',Auth::user()->id)->get()->where('is_published',1);
+        $products = Product::publishedUserId();
         return view('home', compact('products'));
 
     }
@@ -89,9 +88,7 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id){
-    $delete = Product::find($id);
-    Storage::delete('public/'. $delete->image);
-    $delete->delete();
+    $delete = Product::deleteAll($id);
     return redirect('/home')->with('delete', 'Обьявление удалено');
 
     }

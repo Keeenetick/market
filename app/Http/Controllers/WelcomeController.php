@@ -9,7 +9,7 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-    	$products = Product::all();
+    	$products = Product::is_published();
     	return view('welcome',compact('products'));
     }
 }

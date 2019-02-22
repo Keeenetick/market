@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
         <!-- Styles -->
         <style>
@@ -79,10 +80,35 @@
                 </div>
             @endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
+           
+ @foreach($products as $items)
+  <div class="row">
+    <div class="col-sm">
+        
+     <div class="card" style="width: 18rem;">
+       
+          <img class="card-img-top" style="height: 239px;" src="{{asset('/storage/'.$items->image)}}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{$items->title}}</h5>
+            <p class="card-text">{!!$items->description!!}</p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{$items->price}}</li>
+            <li class="list-group-item">{{$items->user_name}}</li>
+            <li class="list-group-item">{{$items->created_at}}</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+        </div>
+       
+    </div>
+
+    </div>
+  </div>
+  
+  @endforeach
+            
 
               
             </div>
